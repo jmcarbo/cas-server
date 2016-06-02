@@ -4,7 +4,6 @@ import (
     "net"
     "net/http"
     "errors"
-    "fmt"
 
     "github.com/jmcarbo/cas-server/types"
 )
@@ -21,9 +20,9 @@ func ValidateRequest(r *http.Request, config *types.Config) *types.CasError {
         return casError
     }
 
-    fmt.Print(config.Ldap.Addresses[0])
+    return &types.CasError{Error: errors.New(config.Ldap.Addresses[0]), CasErrorCode: types.CAS_ERROR_CODE_INTERNAL_ERROR}
 
-    return nil
+    //return nil
 }
 
 func isRemoteAddrAllowed(ip string) *types.CasError {
