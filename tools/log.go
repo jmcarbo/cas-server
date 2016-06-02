@@ -5,8 +5,8 @@ import (
     "time"
     "net"
     "net/http"
-    
-    "github.com/matthewvalimaki/cas-server/types"
+
+    "github.com/jmcarbo/cas-server/types"
 )
 
 func timestamp() string {

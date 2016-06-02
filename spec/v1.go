@@ -5,17 +5,17 @@ import (
     "errors"
     "net/http"
     "strings"
-    
-    "github.com/matthewvalimaki/cas-server/tools"
-    "github.com/matthewvalimaki/cas-server/validators"
-    "github.com/matthewvalimaki/cas-server/types"
-    "github.com/matthewvalimaki/cas-server/storage"
-    "github.com/matthewvalimaki/cas-server/security"
+
+    "github.com/jmcarbo/cas-server/tools"
+    "github.com/jmcarbo/cas-server/validators"
+    "github.com/jmcarbo/cas-server/types"
+    "github.com/jmcarbo/cas-server/storage"
+    "github.com/jmcarbo/cas-server/security"
 )
 
 var (
     specTemplatePath = "spec/tmpl/"
-    
+
     strg storage.IStorage
     config *types.Config
 )
@@ -34,21 +34,21 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
         tools.LogRequest(r, err.Error.Error())
         return
     }
-    
+
     if strg == nil {
         err := &types.CasError{Error: errors.New("`strg` has not been set"), CasErrorCode: types.CAS_ERROR_CODE_INTERNAL_ERROR}
         loginResponse(err, nil, w, r)
         tools.LogRequest(r, err.Error.Error())
         return
     }
-    
-    err := validators.ValidateRequest(r)
+
+    err := validators.ValidateRequest(r, config)
     if err != nil {
         loginResponse(err, nil, w, r)
         tools.LogRequest(r, err.Error.Error())
         return
-    }    
-    
+    }
+
     service := r.URL.Query().Get("service") 
     err = validators.ValidateService(service, config)
     if err != nil {
@@ -57,9 +57,9 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
         security.ProcessFailedLogin(r.RemoteAddr)
         return
     }
-    
+
     var serviceTicket, _ = security.CreateNewServiceTicket(strg, service)
-    
+
     loginResponse(nil, serviceTicket, w, r)
 }
 
@@ -68,11 +68,11 @@ func loginResponse(casError *types.CasError, ticket *types.Ticket, w http.Respon
         if casError.CasErrorCode == types.CAS_ERROR_CODE_INTERNAL_ERROR {
             w.WriteHeader(http.StatusInternalServerError)
         }
-        
+
         fmt.Fprintf(w, casError.Error.Error())
         return
     }
-    
+
     if strings.Contains(ticket.Service, "?") {
         http.Redirect(w, r, ticket.Service + "&ticket=" + ticket.Ticket, http.StatusFound)
     } else {
@@ -83,12 +83,12 @@ func loginResponse(casError *types.CasError, ticket *types.Ticket, w http.Respon
 // HandleValidate handles validation request
 func HandleValidate(w http.ResponseWriter, r *http.Request) {
     serviceTicket, err := runValidators(w, r)
-    
+
     if err != nil {
         validateResponse(false, err, nil, w, r)
         return
     }
-    
+
     validateResponse(true, nil, serviceTicket, w, r)
 }
 

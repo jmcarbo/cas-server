@@ -3,11 +3,11 @@ package main
 import (
     "fmt"
     "net/http"
-    
-    "github.com/matthewvalimaki/cas-server/types"
-    "github.com/matthewvalimaki/cas-server/tools"
-    "github.com/matthewvalimaki/cas-server/spec"
-    "github.com/matthewvalimaki/cas-server/admin"
+
+    "github.com/jmcarbo/cas-server/types"
+    "github.com/jmcarbo/cas-server/tools"
+    "github.com/jmcarbo/cas-server/spec"
+    "github.com/jmcarbo/cas-server/admin"
 )
 
 var (
@@ -17,19 +17,19 @@ var (
 // StartServers starts listening per server configuration
 func startServers(config *types.Config) error {
     mux := getCorsMux()
-    
+
     for _, server := range config.Servers {
         if server.SSL {                  
             go startServer(mux, config.Cors, server.PortToString(), server.CACert, server.CAKey)
-            
+
             tools.Log(fmt.Sprintf("cas-server is now started up and binding to all interfaces with port `%d` using SSL", server.Port))
-        } else {           
+        } else {
             go startServer(mux, config.Cors, server.PortToString(), "", "")
-            
+
             tools.Log(fmt.Sprintf("cas-server is now started up and binding to all interfaces with port `%d`", server.Port))
         }
     }
-    
+
     return nil
 }
 
@@ -51,20 +51,20 @@ func startServer(mux *http.ServeMux, cors *types.Cors, port string, cacert strin
 func getCorsMux() *http.ServeMux {
     mux := http.NewServeMux()
     mux.HandleFunc("/admin/services", admin.HandleServices)
-    
+
     // v1
     mux.HandleFunc("/login", spec.HandleLogin)
     mux.HandleFunc("/validate", spec.HandleValidate)
-    
+
     // v2
     mux.HandleFunc("/serviceValidate", spec.HandleValidateV2)
     mux.HandleFunc("/proxyValidate", spec.HandleValidateV2)
     mux.HandleFunc("/proxy", spec.HandleProxyV2)
-    
+
     // v3
     mux.HandleFunc("/p3/serviceValidate", spec.HandleValidateV2)
     mux.HandleFunc("/p3/proxyValidate", spec.HandleValidateV2)
-    
+
     return mux
 }
 

@@ -5,8 +5,8 @@ import (
     "errors"
     "net/http"
     "strings"
-    
-    "github.com/matthewvalimaki/cas-server/types"
+
+    "github.com/jmcarbo/cas-server/types"
 )
 
 // ValidateProxyGrantingURL validates proxy pgtURL

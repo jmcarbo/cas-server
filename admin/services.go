@@ -3,9 +3,9 @@ package admin
 import (
     "net/http"
     "encoding/json"
-    
-    "github.com/matthewvalimaki/cas-server/tools"
-    "github.com/matthewvalimaki/cas-server/types"
+
+    "github.com/jmcarbo/cas-server/tools"
+    "github.com/jmcarbo/cas-server/types"
 )
 
 var (

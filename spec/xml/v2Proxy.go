@@ -2,8 +2,8 @@ package xml
 
 import (
     "fmt"
-    
-    "github.com/matthewvalimaki/cas-server/types"
+
+    "github.com/jmcarbo/cas-server/types"
 )
 
 // V2ProxyFailure produces XML string for failure

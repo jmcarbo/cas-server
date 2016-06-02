@@ -5,8 +5,8 @@ import (
     "testing"
     "strings"
     "net/http/httptest"
-    "github.com/matthewvalimaki/cas-server/types"
-    "github.com/matthewvalimaki/cas-server/storage"
+    "github.com/jmcarbo/cas-server/types"
+    "github.com/jmcarbo/cas-server/storage"
 )
 
 func TestHandleLoginStorageNotSet(t *testing.T) {

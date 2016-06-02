@@ -3,10 +3,10 @@ package security
 import (
     "fmt"
     "math/rand"
-    
-    "github.com/matthewvalimaki/cas-server/tools"
-    "github.com/matthewvalimaki/cas-server/types"
-    "github.com/matthewvalimaki/cas-server/storage"
+
+    "github.com/jmcarbo/cas-server/tools"
+    "github.com/jmcarbo/cas-server/types"
+    "github.com/jmcarbo/cas-server/storage"
 )
 
 const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
@@ -18,7 +18,7 @@ func createNewTicket(ticketType string) types.Ticket {
     for i := range b {
         b[i] = letterBytes[rand.Int63() % int64(len(letterBytes))]
     }
-    
+
     return types.Ticket{Ticket: ticketType + "-" + string(b)} 
 }
 

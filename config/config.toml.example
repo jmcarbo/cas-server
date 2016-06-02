@@ -22,3 +22,6 @@ ProxyServices = ["Yahoo"]
 
 [Services.Yahoo]
 ID = ["https://yahoo.com"]
+
+[Services.Intranet]
+ID = ["https://intranet\\.imim.*"]

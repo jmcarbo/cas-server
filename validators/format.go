@@ -2,8 +2,8 @@ package validators
 
 import (
     "errors"
-    
-    "github.com/matthewvalimaki/cas-server/types"
+
+    "github.com/jmcarbo/cas-server/types"
 )
 
 // ValidateFormat validates that format is of correct value

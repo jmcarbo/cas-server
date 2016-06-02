@@ -10,6 +10,6 @@ type User struct {
 func NewUser(ip string) User {
     var user = User{FailedLoginCount: 0}
     user.IP = append(user.IP, ip)
-    
+
     return user
 }

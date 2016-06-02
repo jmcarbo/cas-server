@@ -4,8 +4,8 @@ import (
     "fmt" 
     "errors"
     "regexp"
-    
-    "github.com/matthewvalimaki/cas-server/types"
+
+    "github.com/jmcarbo/cas-server/types"
 )
 
 // ValidateService validates service
